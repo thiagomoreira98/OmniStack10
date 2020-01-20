@@ -2,7 +2,12 @@ const express = require('express'),
   cors = require('cors'),
   mongoose = require('mongoose'),
   routes = require('./routes'),
-  app = express();
+  http = require('http'),
+  { setupWebSocket } = require('./websocket'),
+  app = express(),
+  server = http.createServer(app);
+
+setupWebSocket(server);
 
 mongoose.connect('mongodb://root:1234@192.168.99.100:27017/week10', {
   useNewUrlParser: true,
@@ -18,4 +23,4 @@ app.use(cors());
 app.use(express.json());
 app.use(routes);
 
-app.listen(3333);
+server.listen(3333);
